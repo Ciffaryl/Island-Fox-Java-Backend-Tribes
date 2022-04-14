@@ -1,12 +1,13 @@
-## AUTHENTICATION AND AUTHORIZATION,  ISLAND-FOX-JAVA-TRIBES
+# ISLAND-FOX-JAVA-BACKEND-TRIBES
 
-We have two methods of authentication.
-In order one we have normal authentication in spring boot security. In order two we have OAuth2.
-In configuration class -> security -> SecurityConfigurer. In method configure we can add any endpoint, where we want to skip authentication process with JWT token.
-JWT token will be generate from /login endpoint in RegistrationController Class. The user must enter his correct username and password. JWT must be inserted in the Authentication header in Postman, where we will set the form Bearer.
-OAuth2 works little bit different. 
+## Purpose
+The purpose of this project was to prepare us for the junior java developer role. We've worked in a team of 5 people while utilizing technologies like Spring Boot, MySQL, Git, Jira, JWT, RabbitMQ and JUnit to create a copy of a famous browser game 'Tribes'.
 
-After turning on the application, localhost will offer you the option to log in via Google or Facebook.
-After successful OAuth2, client will be redirect to security -> SecurityConfigurer method configure (successHandler). The overwrite method selects the e-mail from OAuth2, sets the e-mail, username, and temporary password and save new user into the database. 
-Also, users username will be add into the LIST_OAUTH_USERS on the index 0.  OAuth2 method generate his own JWT token, which is longer than our JWT generate directly by app. If user later try to use JWT token from OAuth2, JwtRequestFilter class will catch OAuth2 JWT token and switch it for our token use JwtUtil class. 
+## What it does
+Our project can currently do the following
+* Register a player and set a kingdom for him.
+* Send an email to authenticate a player.
+* Player can build and upgrade buildings, recruit troops and attack other empires.
+* Player can claim other cities.
+* Player can be winning the game via Leaderboards.
 
