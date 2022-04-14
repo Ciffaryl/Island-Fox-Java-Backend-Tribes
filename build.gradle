@@ -1,0 +1,89 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'checkstyle'
+}
+
+group = 'com.greenfoxacademy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+
+    //implementation 'org.flywaydb:flyway-core'
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // JWT token stuff
+    implementation 'com.auth0:java-jwt:3.16.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // testing packages
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+//    retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+    implementation 'org.modelmapper:modelmapper:2.4.4'
+
+    // testing environmental variables
+    implementation 'org.junit-pioneer:junit-pioneer:1.4.2'
+
+    // OAuth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.6.2'
+
+    // spring Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail:2.6.2'
+
+}
+
+test {
+    useJUnitPlatform()
+    doFirst {
+        systemProperty 'spring.profiles.active', 'test'
+    }
+
+    // checkstyle configuration
+    checkstyle {
+        toolVersion '7.8.1'
+        configFile file("config/checkstyle/checkstyle.xml")
+    }
+    checkstyleMain {
+        source ='src/main/java'
+    }
+    checkstyleTest {
+        source ='src/test/java'
+    }
+}

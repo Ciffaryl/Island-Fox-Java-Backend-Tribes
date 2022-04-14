@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  build:
+    docker:
+    # specify the version you desire here
+    - image: circleci/openjdk:11-jdk
+      #specify system properties
+      environment:
+        DB_ROOT_USER: sa
+        DB_URL: jdbc:h2:file:~/data/tribes
+        DB_DRIVER: org.h2.Driver
+        DB_PASS: password
+        TZ: Europe/Prague
+      # Specify our database service here
+      # CircleCI maintains a library of pre-built images
+    #- image: circleci/mysql:5.7
+    #  environment:
+    #    MYSQL_ROOT_PASSWORD: password
+    #working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+
+      - run: ./gradlew build
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+
+      # run checkstyle
+      #- run: gradle checkstyleMain
+      #- run: gradle checkstyleTest
+      #- store_artifacts:
+      #    path: build/reports/checkstyle
+
+      # run tests!
+      - run: ./gradlew test
+      - store_artifacts:
+          path: build/reports/jacoco/test
